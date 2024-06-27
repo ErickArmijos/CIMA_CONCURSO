@@ -31,7 +31,6 @@ export const login = async (req,res)=>{
     }
 }
 
-
 export const register = async (req,res)=>{
     try{
         const {nombres,apellidos,email,contraseña,telefono,fecha_nacimiento} = req.body;
@@ -93,3 +92,5 @@ export const verifyToken = async (req, res) => {
       });
     });
   };
+
+
