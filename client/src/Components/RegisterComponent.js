@@ -5,9 +5,6 @@ import { useForm } from "react-hook-form";
 import "./RegisterStyles.css";
 import { UseAuth } from "../Context/authContext.js";
 
-
-
-
 const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
   const { register: registerRegister, handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, watch } = useForm();
@@ -29,9 +26,10 @@ const RegisterComponent = () => {
   useEffect(() => {
     let rolUsuario = "Estudiante";
     if (UserLogin) {
-       rolUsuario = UserLogin.usuarioExiste.nombres;
+      console.log(UserLogin)
+       rolUsuario = UserLogin.nuevoUsuario.rol;
     }
-    if (isAuthenticated && rolUsuario === "Erick"){ 
+    if (isAuthenticated && rolUsuario === "personal_administrativo"){ 
       navigate("/laboratoriosAdministracion");
       }else if(isAuthenticated){
         navigate("/noadmin");
@@ -77,7 +75,7 @@ const RegisterComponent = () => {
               
             {registerErrors && registerErrors.map((error, i) => (
               <div className="errorBack" key={i}>
-                {error.message ? error.message : JSON.stringify(error)}
+                {error && error.message ? error.message : JSON.stringify(error)}
               </div>
             ))}
 
@@ -125,7 +123,7 @@ const RegisterComponent = () => {
             <form onSubmit={handleSubmitRegister(onSubmitRegister)}>
             {registerErrors && registerErrors.map((error, i) => (
               <div className="errorBack" key={i}>
-                {error.message ? error.message : JSON.stringify(error)}
+                {error && error.message ? error.message : JSON.stringify(error)}
               </div>
             ))}
               <div className="input-boxes">
@@ -161,8 +159,8 @@ const RegisterComponent = () => {
                 <div className="input-box">
                   <i className="fas fa-user"></i>
                   <select className="input-box"
-                    name="role" 
-                    {...registerRegister("role", { required: "Rol es requerido" })}
+                    name="rol" 
+                    {...registerRegister("rol", { required: "Rol es requerido" })}
                   >
                     <option value="">Seleccione un rol</option>
                     <option value="estudiante">Estudiante</option>
