@@ -24,6 +24,14 @@ const laboratorio = sequelize.define("laboratorio",{
         type:DataTypes.INTEGER,
         allowNull:false,
   },
+  "reservado":{
+    type:DataTypes.BOOLEAN,
+    defaultValue:false,
+  },
+  "horario":{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+  }
 },{
     timestamps: false
 });
