@@ -9,7 +9,7 @@ const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
   const { register: registerRegister, handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, watch } = useForm();
 
-  const { signUp, logIn, isAuthenticated, errors: loginErrors = [] } = UseAuth();
+  const { signUp, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
 
   const onSubmitLogin = async (data) => {
     console.log(data);
@@ -24,7 +24,7 @@ const RegisterComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/profile");
+    if (isAuthenticated) navigate("/laboratorios");
   }, [isAuthenticated, navigate]);
 
   const validateAge = (value) => {
@@ -63,12 +63,12 @@ const RegisterComponent = () => {
 
             <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
               
-              {loginErrors && loginErrors.map((error, i) => (
-                <div key={i}>
-                  {error}
-                </div>
-              ))}
-              
+            {registerErrors && registerErrors.map((error, i) => (
+              <div className="errorBack" key={i}>
+                {error.message ? error.message : JSON.stringify(error)}
+              </div>
+            ))}
+
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-envelope"></i>
