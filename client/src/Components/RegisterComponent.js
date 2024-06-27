@@ -140,6 +140,24 @@ const RegisterComponent = () => {
                     {errorsRegister.apellidos.message}
                   </small>
                 )}
+                {/* Seleccion del rol  */}
+                <div className="input-box">
+                  <i className="fas fa-user"></i>
+                  <select className="input-box"
+                    name="role" 
+                    {...registerRegister("role", { required: "Rol es requerido" })}
+                  >
+                    <option value="">Seleccione un rol</option>
+                    <option value="estudiante">Estudiante</option>
+                    <option value="profesor">Profesor</option>
+                    <option value="personal_administrativo">Personal Administrativo</option>
+                  </select>
+                </div>
+                {errorsRegister.rol && (
+                  <small className="errorValidate" style={{ color: "red" }}>
+                    {errorsRegister.rol.message}
+                  </small>
+                )}
                 <div className="input-box">
                   <i className="fas fa-calendar-alt"></i>
                   <input
