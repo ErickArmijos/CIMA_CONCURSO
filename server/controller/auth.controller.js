@@ -22,7 +22,7 @@ export const login = async (req,res)=>{
             secure: true,
             sameSite: "none",
           });
-        return res.status(200).json({ mensaje: "Inicio de sesión exitoso", usuarioExiste });
+        return res.status(200).json({usuarioExiste});
 
 
     }catch(e){
@@ -66,7 +66,7 @@ export const logout = async (req, res) => {
   };
 
 
-export const profile = async (req,res) =>{
+export const rolUser = async (req,res) =>{
     const userFound = await User.findByPk(req.user.uuid);
     if(userFound){
         res.json(userFound)

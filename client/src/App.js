@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/register' element={<RegisterComponent/>} />
-          <Route path='/labsinfo' element={<LabsComponent/>} />
+          <Route path='/laboratorios' element={<LabsComponent/>} />
         </Routes>
     </BrowserRouter>
     </AuthProvider>

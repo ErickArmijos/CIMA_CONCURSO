@@ -5,11 +5,14 @@ import { useForm } from "react-hook-form";
 import "./RegisterStyles.css";
 import { UseAuth } from "../Context/authContext.js";
 
+
+
+
 const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
   const { register: registerRegister, handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, watch } = useForm();
 
-  const { signUp, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
+  const { signUp, user: UserLogin, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
 
   const onSubmitLogin = async (data) => {
     console.log(data);
@@ -24,8 +27,17 @@ const RegisterComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/laboratorios");
-  }, [isAuthenticated, navigate]);
+    let rolUsuario = "Estudiante";
+    if (UserLogin) {
+       rolUsuario = UserLogin.usuarioExiste.nombres;
+    }
+    if (isAuthenticated && rolUsuario === "Erick"){ 
+      navigate("/laboratoriosAdministracion");
+      }else if(isAuthenticated){
+        navigate("/noadmin");
+      }
+  }, [isAuthenticated, navigate, UserLogin]);
+  
 
   const validateAge = (value) => {
     const today = new Date();

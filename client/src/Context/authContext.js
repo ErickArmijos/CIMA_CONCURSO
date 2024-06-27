@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import { loginRequest, registerRequest, verifyTokenRequest } from "../Api/auth.js";
 import Cookies from "js-cookie"; 
 
+
 export const AuthContext = createContext();
 
 export const UseAuth = ()=>{
@@ -87,7 +88,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ signUp, user,logIn,isAuthenticated, errors,logout,
-            loading, }}>
+            loading}}>
             {children}
         </AuthContext.Provider>
     );
