@@ -35,10 +35,8 @@ export const AuthProvider = ({ children }) => {
     const signUp = async (user) => {
       try {
           const res = await registerRequest(user);
-          if (res.status === 200) {
               setUser(res.data);
-              setIsAuthenticated(true);
-          }
+              setIsAuthenticated(true);    
       } catch (error) {
           console.log(error.response.data);
           setErrors(Array.isArray(error.response.data.message) ? error.response.data.message : [error.response.data.message]);

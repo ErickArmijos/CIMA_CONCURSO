@@ -11,7 +11,7 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(https://images.pexels.com/photos/2600222/pexels-photo-2600222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(https://ec.viajandox.com/uploads/attractive_2826.jpg);
   background-size: cover;
   background-position: center;
   padding: 30px;
@@ -219,5 +219,10 @@ body{
 
 .errorValidate{
   display: block;
-  
+  color: red;
+}
+
+.errorBack{
+  color: red;
+  margin-top: 3px;
 }
