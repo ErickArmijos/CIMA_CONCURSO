@@ -1,14 +1,15 @@
+import { useEffect } from "react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./RegisterStyles.css";
-// import { Link } from "react-router-dom";
 import { UseAuth } from "../Context/authContext";
 
 const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
   const { register: registerRegister, handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, watch } = useForm();
 
-  const { signUp,logIn } = UseAuth();
+  const { signUp, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
 
   const onSubmitLogin = async (data) => {
     console.log(data);
@@ -20,6 +21,11 @@ const RegisterComponent = () => {
     await signUp(data);
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/profile");
+  }, [isAuthenticated, navigate]);
 
   const validateAge = (value) => {
     const today = new Date();
@@ -56,6 +62,13 @@ const RegisterComponent = () => {
             <div className="title">Inicio de sesión</div>
 
             <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
+              
+              {registerErrors && registerErrors.map((error, i) => (
+                <div key={i}>
+                  {error}
+                </div>
+              ))}
+              
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-envelope"></i>
