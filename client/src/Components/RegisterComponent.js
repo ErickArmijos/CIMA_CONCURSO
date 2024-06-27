@@ -9,7 +9,7 @@ const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
   const { register: registerRegister, handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, watch } = useForm();
 
-  const { signUp, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
+  const { signUp, user: UserLogin, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
 
   const onSubmitLogin = async (data) => {
     console.log(data);
@@ -24,8 +24,18 @@ const RegisterComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/laboratorios");
-  }, [isAuthenticated, navigate]);
+    let rolUsuario = "Estudiante";
+    if (UserLogin) {
+      console.log(UserLogin)
+       rolUsuario = UserLogin.nuevoUsuario.rol;
+    }
+    if (isAuthenticated && rolUsuario === "personal_administrativo"){ 
+      navigate("/laboratoriosAdministracion");
+      }else if(isAuthenticated){
+        navigate("/noadmin");
+      }
+  }, [isAuthenticated, navigate, UserLogin]);
+  
 
   const validateAge = (value) => {
     const today = new Date();
@@ -65,7 +75,7 @@ const RegisterComponent = () => {
               
             {registerErrors && registerErrors.map((error, i) => (
               <div className="errorBack" key={i}>
-                {error.message ? error.message : JSON.stringify(error)}
+                {error && error.message ? error.message : JSON.stringify(error)}
               </div>
             ))}
 
@@ -113,7 +123,7 @@ const RegisterComponent = () => {
             <form onSubmit={handleSubmitRegister(onSubmitRegister)}>
             {registerErrors && registerErrors.map((error, i) => (
               <div className="errorBack" key={i}>
-                {error.message ? error.message : JSON.stringify(error)}
+                {error && error.message ? error.message : JSON.stringify(error)}
               </div>
             ))}
               <div className="input-boxes">
@@ -149,8 +159,8 @@ const RegisterComponent = () => {
                 <div className="input-box">
                   <i className="fas fa-user"></i>
                   <select className="input-box"
-                    name="role" 
-                    {...registerRegister("role", { required: "Rol es requerido" })}
+                    name="rol" 
+                    {...registerRegister("rol", { required: "Rol es requerido" })}
                   >
                     <option value="">Seleccione un rol</option>
                     <option value="estudiante">Estudiante</option>

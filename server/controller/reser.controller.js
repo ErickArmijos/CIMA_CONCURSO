@@ -1,32 +1,25 @@
 import Reservas from "../models/reservas.models.js"
+import Laboratorios from "../models/laboratorios.models.js"
+import { where } from "sequelize";
 
-
-export const registerLab = async(req,res) =>{
+export const registerReser = async(req,res) =>{
 
   try{
-      const {codigolab,nombre,capacidad,disponibilidad,horario,equipos}= req.body;
-      const labexiste = await Laboratorios.findOne({where:{codigolab}});
-      if(labexiste){
-          return res.status(400).json({message:["El laboratorio ya se encuentra registrado"]})
-      }
-
-      const nuevoLab = await Laboratorios.create({codigolab,nombre,capacidad,disponibilidad,horario,equipos});
+      const {categoria,id_usuario,id_laboratorio}= req.body;
+      const labreservado = await Laboratorios.findOne({where:{id:id_laboratorio}});
+      if(labreservado.reservado == true)   return res.status(400).json({message:["El laboratorio ya se encuentra reservado"]}) 
+      const nuevoLab = await Reservas.create({categoria,id_usuario,id_laboratorio,reservado:true});
       return res.status(201).json({nuevoLab})
-
   }catch(e){
       console.log("error: ",e)
       return res.status(500).json({error:"Laboratorio no creado"})
   }   
-
 } 
-
-
-
-
 
 export const getReservas = async (req, res) => {
     try {
-      const reser = await Reservas.findAll();
+      const {id_usuario} = req.body;
+      const reser = await Reservas.findAll({where:id_usuario});
       return res.status(200).json(reser);
     } catch (e) {
       console.log("error: ", e);

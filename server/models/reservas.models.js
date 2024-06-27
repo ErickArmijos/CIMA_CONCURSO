@@ -14,7 +14,7 @@ import { DataTypes } from "sequelize";
         allowNull:false,
     },
     "id_usuario":{
-        type:DataTypes.UUID,
+        type:DataTypes.INTEGER,
         allowNull:false,
     },
     "id_laboratorio":{

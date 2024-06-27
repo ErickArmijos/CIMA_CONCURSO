@@ -3,13 +3,13 @@ import Laboratorios from "../models/laboratorios.models.js"
 export const registerLab = async(req,res) =>{
 
     try{
-        const {codigolab,nombre,capacidad,disponibilidad,horario,equipos}= req.body;
+        const {codigolab,nombre,capacidad,horario,equipos}= req.body;
         const labexiste = await Laboratorios.findOne({where:{codigolab}});
         if(labexiste){
             return res.status(400).json({message:["El laboratorio ya se encuentra registrado"]})
         }
 
-        const nuevoLab = await Laboratorios.create({codigolab,nombre,capacidad,disponibilidad,horario,equipos});
+        const nuevoLab = await Laboratorios.create({codigolab,nombre,capacidad,horario,equipos});
         return res.status(201).json({nuevoLab})
 
     }catch(e){
