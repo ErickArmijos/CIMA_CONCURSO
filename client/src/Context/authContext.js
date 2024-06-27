@@ -40,8 +40,8 @@ export const AuthProvider = ({ children }) => {
               setIsAuthenticated(true);
           }
       } catch (error) {
-          console.log(error.response.data);
-          setErrors(Array.isArray(error.response.data.message) ? error.response.data.message : [error.response.data.message]);
+          // console.log(error.response.data);
+          // setErrors(Array.isArray(error.response.data.message) ? error.response.data.message : [error.response.data.message]);
       }
   };
   

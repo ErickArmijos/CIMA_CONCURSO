@@ -3,13 +3,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./RegisterStyles.css";
-import { UseAuth } from "../Context/authContext";
+import { UseAuth } from "../Context/authContext.js";
 
 const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
   const { register: registerRegister, handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, watch } = useForm();
 
-  const { signUp, logIn, isAuthenticated, errors: registerErrors = [] } = UseAuth();
+  const { signUp, logIn, isAuthenticated, errors: loginErrors = [] } = UseAuth();
 
   const onSubmitLogin = async (data) => {
     console.log(data);
@@ -63,7 +63,7 @@ const RegisterComponent = () => {
 
             <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
               
-              {registerErrors && registerErrors.map((error, i) => (
+              {loginErrors && loginErrors.map((error, i) => (
                 <div key={i}>
                   {error}
                 </div>
