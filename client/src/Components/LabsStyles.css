@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4));
+}
+  
+  /* .labs-container {
+    padding: 20px;
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  } */
+  
+.header {
+background-color: red;
+width: 100%;
+padding: 20px 0;
+text-align: center;
+color: white;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+h1, h2 {
+margin: 10px 0;
+color: #333;
+}
+  
+  /* form {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px 0;
+  } */
+  
+  .input-box {
+    margin-bottom: 20px;
+  }
+  
+  .input-box label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .input-box input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .errorValidate {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .edit-btn {
+    background-color: #ffc107;
+  }
+  
+  .edit-btn:hover {
+    background-color: #e0a800;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .labs-list {
+    width: 100%;
+    max-width: 500px;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .lab-item {
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .lab-item div {
+    margin-bottom: 5px;
+  }
+  

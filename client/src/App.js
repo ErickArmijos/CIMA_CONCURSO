@@ -3,6 +3,7 @@ import RegisterComponent from './Components/RegisterComponent';
 
 import { AuthProvider } from './Context/authContext.js';
 import './App.css';
+import LabsComponent from "./Components/LabsComponent.js";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/register' element={<RegisterComponent/>} />
+          <Route path='/labsinfo' element={<LabsComponent/>} />
         </Routes>
     </BrowserRouter>
     </AuthProvider>

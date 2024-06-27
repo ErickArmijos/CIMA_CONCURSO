@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./RegisterStyles.css";
-import { UseAuth } from "../Context/authContext";
+import { UseAuth } from "../Context/authContext.js";
 
 const RegisterComponent = () => {
   const { register: registerLogin, handleSubmit: handleSubmitLogin, formState: { errors: errorsLogin } } = useForm();
@@ -24,7 +24,7 @@ const RegisterComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/profile");
+    if (isAuthenticated) navigate("/laboratorios");
   }, [isAuthenticated, navigate]);
 
   const validateAge = (value) => {
@@ -44,14 +44,14 @@ const RegisterComponent = () => {
       <div className="cover">
         <div className="front">
           <img
-            src="https://images.pexels.com/photos/3978831/pexels-photo-3978831.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src="https://oficina.espoch.edu.ec/dtic/images/3.jpg"
             alt=""
           />
         </div>
         <div className="back">
           <img
             className="backImg"
-            src="https://images.pexels.com/photos/3978831/pexels-photo-3978831.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src="https://i.ytimg.com/vi/K7aQgWWc8uE/maxresdefault.jpg"
             alt=""
           />
         </div>
@@ -63,12 +63,12 @@ const RegisterComponent = () => {
 
             <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
               
-              {registerErrors && registerErrors.map((error, i) => (
-                <div key={i}>
-                  {error}
-                </div>
-              ))}
-              
+            {registerErrors && registerErrors.map((error, i) => (
+              <div className="errorBack" key={i}>
+                {error.message ? error.message : JSON.stringify(error)}
+              </div>
+            ))}
+
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-envelope"></i>
@@ -111,6 +111,11 @@ const RegisterComponent = () => {
           <div className="signup-form">
             <div className="title">Registro</div>
             <form onSubmit={handleSubmitRegister(onSubmitRegister)}>
+            {registerErrors && registerErrors.map((error, i) => (
+              <div className="errorBack" key={i}>
+                {error.message ? error.message : JSON.stringify(error)}
+              </div>
+            ))}
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-user"></i>
@@ -138,6 +143,24 @@ const RegisterComponent = () => {
                 {errorsRegister.apellidos && (
                   <small className="errorValidate" style={{ color: "red" }}>
                     {errorsRegister.apellidos.message}
+                  </small>
+                )}
+                {/* Seleccion del rol  */}
+                <div className="input-box">
+                  <i className="fas fa-user"></i>
+                  <select className="input-box"
+                    name="role" 
+                    {...registerRegister("role", { required: "Rol es requerido" })}
+                  >
+                    <option value="">Seleccione un rol</option>
+                    <option value="estudiante">Estudiante</option>
+                    <option value="profesor">Profesor</option>
+                    <option value="personal_administrativo">Personal Administrativo</option>
+                  </select>
+                </div>
+                {errorsRegister.rol && (
+                  <small className="errorValidate" style={{ color: "red" }}>
+                    {errorsRegister.rol.message}
                   </small>
                 )}
                 <div className="input-box">

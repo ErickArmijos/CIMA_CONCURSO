@@ -13,12 +13,12 @@ export const login = async (req,res)=>{
         }
         const coincideContrasena = await bcrypt.compare(contraseña, usuarioExiste.contraseña);
         if (!coincideContrasena) {
-            return res.status(401).json({ message:[ "Contraseña incorrecta"] });
+            return res.status(401).json({ message: ["Contraseña incorrecta"] });
         }
 
         const token = await tokenGenerator({uuid:usuarioExiste.uuid})
         res.cookie("token", token, {
-            httpOnly: process.env.NODE_ENV !== "development",
+            httpOnly: true,
             secure: true,
             sameSite: "none",
           });
@@ -44,7 +44,7 @@ export const register = async (req,res)=>{
         console.log(nuevoUsuario)
         const token = await tokenGenerator({uuid:nuevoUsuario.uuid})
         res.cookie("token", token, {
-            httpOnly: process.env.NODE_ENV !== "development",
+            httpOnly: true,
             secure: true,
             sameSite: "none",
           });
