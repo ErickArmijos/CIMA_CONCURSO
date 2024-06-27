@@ -36,3 +36,5 @@ laboratorio.belongsTo(reserva,{
     sourceKey:'id_laboratorio',
 })
 export default laboratorio;
+
+

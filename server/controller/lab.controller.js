@@ -27,5 +27,35 @@ export const getLabs = async (req, res) => {
       console.log("error: ", e);
       return res.status(500).json({ error: "Error al obtener los laboratorios" });
     }
-  };
+};
+
+
+export const updateLab = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { codigolab, nombre, capacidad, equipos } = req.body;
+
+      
+      const lab = await Laboratorios.findByPk(id);
+      if (!lab) {
+          return res.status(404).json({ message: "Laboratorio no encontrado" });
+      }
+
+      // Actualizar el laboratorio
+      lab.codigolab = codigolab || lab.codigolab;
+      lab.nombre = nombre || lab.nombre;
+      lab.capacidad = capacidad || lab.capacidad;
+      lab.equipos = equipos || lab.equipos;
+
+      await lab.save();
+
+      return res.status(200).json({ message: "Laboratorio actualizado correctamente", lab });
+
+  } catch (e) {
+      console.error("Error: ", e);
+      return res.status(500).json({ error: "Error al actualizar el laboratorio" });
+  }
+};
+
+
 

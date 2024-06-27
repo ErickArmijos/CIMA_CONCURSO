@@ -49,7 +49,5 @@ usuarios.belongsTo(reserva,{
     foreignKey:'uuid',
     sourceKey:'id_usuario'
 });
- 
-  
 
 export default usuarios;
