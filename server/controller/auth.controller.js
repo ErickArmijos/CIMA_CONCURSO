@@ -7,22 +7,22 @@ export const login = async (req,res)=>{
 
     try{
         const { email, contraseña } = req.body;
-        const usuarioExiste = await  Usuarios.findOne({ where: { email } });
-        if (!usuarioExiste) {
+        const nuevoUsuario = await  Usuarios.findOne({ where: { email } });
+        if (!nuevoUsuario) {
             return res.status(404).json({ message: ["Usuario no encontrado"] });
         }
-        const coincideContrasena = await bcrypt.compare(contraseña, usuarioExiste.contraseña);
+        const coincideContrasena = await bcrypt.compare(contraseña, nuevoUsuario.contraseña);
         if (!coincideContrasena) {
             return res.status(401).json({ message: ["Contraseña incorrecta"] });
         }
 
-        const token = await tokenGenerator({uuid:usuarioExiste.uuid})
+        const token = await tokenGenerator({uuid:nuevoUsuario.uuid})
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "none",
           });
-        return res.status(200).json({ mensaje: "Inicio de sesión exitoso", usuarioExiste });
+        return res.status(200).json({nuevoUsuario});
 
 
     }catch(e){
@@ -31,17 +31,16 @@ export const login = async (req,res)=>{
     }
 }
 
-
 export const register = async (req,res)=>{
     try{
-        const {nombres,apellidos,email,contraseña,telefono,fecha_nacimiento} = req.body;
+        const {nombres,apellidos,email,contraseña,telefono,fecha_nacimiento,rol} = req.body;
         const usuarioExiste = await Usuarios.findOne({ where: { email } });
         if (usuarioExiste) {
             return res.status(400).json({ message: ["El email ya está registrado"] });
         }
         const passHash =await bcrypt.hash(contraseña,15);
         console.log("passss: ",passHash)
-        const nuevoUsuario = await Usuarios.create({nombres,apellidos,email,contraseña:passHash,telefono,fecha_nacimiento});
+        const nuevoUsuario = await Usuarios.create({nombres,apellidos,email,contraseña:passHash,telefono,fecha_nacimiento,rol});
         console.log(nuevoUsuario)
         const token = await tokenGenerator({uuid:nuevoUsuario.uuid})
         res.cookie("token", token, {
@@ -66,7 +65,7 @@ export const logout = async (req, res) => {
   };
 
 
-export const profile = async (req,res) =>{
+export const rolUser = async (req,res) =>{
     const userFound = await User.findByPk(req.user.uuid);
     if(userFound){
         res.json(userFound)
@@ -93,3 +92,5 @@ export const verifyToken = async (req, res) => {
       });
     });
   };
+
+

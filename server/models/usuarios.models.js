@@ -1,11 +1,12 @@
 import sequelize from "../config/connection.js";
 import { DataTypes } from "sequelize";
+import reserva from "./reservas.models.js";
 
-const Usuarios = sequelize.define("usuarios",{
+const usuarios = sequelize.define("usuarios",{
     "uuid":{
-        type:DataTypes.UUID,
+        type:DataTypes.INTEGER,
         primaryKey:true,
-        defaultValue:DataTypes.UUIDV4
+        autoIncrement:true,
     },
     "nombres":{
         type:DataTypes.STRING,
@@ -31,10 +32,24 @@ const Usuarios = sequelize.define("usuarios",{
     "fecha_nacimiento":{
         type:DataTypes.DATEONLY,
         allowNull:false
+    },
+    "rol":{
+        type:DataTypes.STRING,
+        allowNull:false,
     }
 },{
     timestamps: false
-})
+});
 
+usuarios.hasMany(reserva,{
+    foreignKey:'id_usuario',
+    sourceKey:'uuid'
+});
+usuarios.belongsTo(reserva,{
+    foreignKey:'uuid',
+    sourceKey:'id_usuario'
+});
+ 
+  
 
-export default Usuarios;
+export default usuarios;
