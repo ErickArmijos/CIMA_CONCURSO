@@ -1,0 +1,61 @@
+/* RegisterStyles.css */
+
+.lab-table-container {
+    background-image: url(https://ec.viajandox.com/uploads/attractive_2826.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .lab-table {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  .lab-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  }
+  
+  .lab-table th, .lab-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .lab-table th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .lab-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .lab-table tbody tr:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .lab-table button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lab-table button:hover {
+    background-color: #45a049;
+  }

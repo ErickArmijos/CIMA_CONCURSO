@@ -30,9 +30,9 @@ const RegisterComponent = () => {
        rolUsuario = UserLogin.nuevoUsuario.rol;
     }
     if (isAuthenticated && rolUsuario === "personal_administrativo"){ 
-      navigate("/laboratoriosAdministracion");
+      navigate("/laboratorios");
       }else if(isAuthenticated){
-        navigate("/noadmin");
+        navigate("/reservas");
       }
   }, [isAuthenticated, navigate, UserLogin]);
   

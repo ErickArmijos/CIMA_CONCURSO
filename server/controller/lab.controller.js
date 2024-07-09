@@ -29,3 +29,45 @@ export const getLabs = async (req, res) => {
     }
   };
 
+  export const updateLab = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { codigolab, nombre, capacidad, horario, equipos } = req.body;
+
+        const lab = await Laboratorios.findByPk(id);
+        if (!lab) {
+            return res.status(404).json({ error: "Laboratorio no encontrado" });
+        }
+
+        lab.codigolab = codigolab;
+        lab.nombre = nombre;
+        lab.capacidad = capacidad;
+        lab.horario = horario;
+        lab.equipos = equipos;
+
+        await lab.save();
+        return res.status(200).json(lab);
+
+    } catch (e) {
+        console.log("error: ", e);
+        return res.status(500).json({ error: "Error al actualizar el laboratorio" });
+    }
+}
+
+export const deleteLab = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      const lab = await Laboratorios.findByPk(id);
+      if (!lab) {
+        return res.status(404).json({ error: "Laboratorio no encontrado" });
+      }
+  
+      await lab.destroy();
+      return res.status(200).json({ message: "Laboratorio eliminado correctamente" });
+  
+    } catch (e) {
+      console.log("error: ", e);
+      return res.status(500).json({ error: "Error al eliminar el laboratorio" });
+    }
+  }

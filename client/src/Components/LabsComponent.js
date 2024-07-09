@@ -1,31 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 import './LabsStyles.css';  // Importando el archivo CSS
+import { registerLaboratorio, getLaboratorio, updateLaboratorio, deleteLaboratorio } from "../Api/laboratorios.js";
 
 const LabsComponent = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
   const [labs, setLabs] = useState([]);
   const [editLabId, setEditLabId] = useState(null);
-  
-  const onSubmit = (data) => {
-    if (editLabId) {
-      setLabs(labs.map(lab => lab.id === editLabId ? { ...data, id: editLabId } : lab));
-      setEditLabId(null);
-    } else {
-      setLabs([...labs, { ...data, id: uuidv4() }]);
+  const [serverError, setServerError] = useState(null);
+
+  useEffect(() => {
+    const fetchLabs = async () => {
+      try {
+        const response = await getLaboratorio();
+        setLabs(response.data);
+      } catch (error) {
+        console.error("Error fetching labs:", error);
+      }
+    };
+
+    fetchLabs();
+  }, []);
+
+  const onSubmit = async (data) => {
+    try {
+      if (editLabId) {
+        await updateLaboratorio(editLabId, data);
+        setEditLabId(null);
+      } else {
+        await registerLaboratorio(data);
+      }
+      reset();
+      setServerError(null);
+
+      // Fetch the updated list of labs
+      const response = await getLaboratorio();
+      setLabs(response.data);
+    } catch (error) {
+      setServerError(error.response ? error.response.data.message : 'Error del servidor. Intente de nuevo más tarde.');
     }
-    reset();
   };
 
   const handleEdit = (id) => {
     const lab = labs.find(l => l.id === id);
-    reset(lab);
+    setValue("nombre", lab.nombre);
+    setValue("codigolab", lab.codigolab);
+    setValue("capacidad", lab.capacidad);
+    setValue("horario", lab.horario);
+    setValue("equipos", lab.equipos);
     setEditLabId(id);
   };
 
-  const handleDelete = (id) => {
-    setLabs(labs.filter(l => l.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await deleteLaboratorio(id);
+      setLabs(labs.filter(l => l.id !== id));
+    } catch (error) {
+      console.error("Error deleting lab:", error);
+    }
   };
 
   return (
@@ -47,6 +79,17 @@ const LabsComponent = () => {
         </div>
 
         <div className="input-box">
+          <label>Código de laboratorio</label>
+          <input 
+            type="text"
+            name="codigolab"
+            placeholder="Ingrese el código del laboratorio"
+            {...register("codigolab", { required: "Código de laboratorio es requerido" })}
+          />
+          {errors.codigolab && <small className="errorValidate">{errors.codigolab.message}</small>}
+        </div>
+
+        <div className="input-box">
           <label>Capacidad</label>
           <input 
             type="number"
@@ -55,6 +98,17 @@ const LabsComponent = () => {
             {...register("capacidad", { required: "Capacidad es requerida" })}
           />
           {errors.capacidad && <small className="errorValidate">{errors.capacidad.message}</small>}
+        </div>
+
+        <div className="input-box">
+          <label>Horario</label>
+          <input 
+            type="text"
+            name="horario"
+            placeholder="Ingrese el horario"
+            {...register("horario", { required: "Horario es requerido" })}
+          />
+          {errors.horario && <small className="errorValidate">{errors.horario.message}</small>}
         </div>
 
         <div className="input-box">
@@ -67,6 +121,8 @@ const LabsComponent = () => {
           />
           {errors.equipos && <small className="errorValidate">{errors.equipos.message}</small>}
         </div>
+
+        {serverError && <div className="errorBack">{serverError}</div>}
 
         <button type="submit" className="btn">{editLabId ? 'Editar' : 'Agregar'} Laboratorio</button>
       </form>
@@ -84,8 +140,13 @@ const LabsComponent = () => {
             <div>
               <strong>Equipos Disponibles:</strong> {lab.equipos}
             </div>
-            <button onClick={() => handleEdit(lab.id)} className="btn edit-btn">Editar</button>
-            <button onClick={() => handleDelete(lab.id)} className="btn delete-btn">Eliminar</button>
+            <div>
+              <strong>Horario:</strong> {lab.horario}
+            </div>
+            <div className='botonesedit'>
+              <button onClick={() => handleEdit(lab.id)} className="btn edit-btn">Editar</button>
+              <button onClick={() => handleDelete(lab.id)} className="btn delete-btn">Eliminar</button>
+            </div>
           </li>
         ))}
       </ul>
